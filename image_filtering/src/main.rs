@@ -1,13 +1,18 @@
 mod image_blurring;
 mod image_sharpening;
 
-use image::{GenericImageView, DynamicImage};
-use image_blurring::{get_image as get_blur_image, par_blurring, normal_blurring, save_image as save_blur_image, image_to_chunks, chunks_to_image};
-use image_sharpening::{get_image as get_sharpen_image, par_sharpen, sharpen, save_image as save_sharpen_image};
+use image::{DynamicImage, GenericImageView};
+use image_blurring::{
+    chunks_to_image, get_image as get_blur_image, image_to_chunks, normal_blurring, par_blurring,
+    save_image as save_blur_image,
+};
+use image_sharpening::{
+    get_image as get_sharpen_image, par_sharpen, save_image as save_sharpen_image, sharpen,
+};
 
 fn main() {
     // Blurring
-    let blur_image = get_blur_image("gojo.png");
+    let blur_image = get_blur_image("4k_image.jpg");
     let (width, height) = blur_image.dimensions();
     let chunk_height = (height + 3) / 4;
     let chunks = image_to_chunks(&blur_image, chunk_height);
@@ -24,7 +29,11 @@ fn main() {
     // let duration_normal = start_normal.elapsed();
     // println!("Normal blurring time taken: {:?}", duration_normal);
 
-    save_blur_image(&image::DynamicImage::ImageRgba8(par_blurred_image), "blurred_image1.png");
+    save_blur_image(
+        &image::DynamicImage::ImageRgba8(par_blurred_image),
+        "blurred_image1.png",
+    );
+    // save_blur_image(&image::DynamicImage::ImageRgba8(normal_blurred_image), "blurred_image.png");
 
     // Sharpening
     let sharpen_image = get_sharpen_image("landscape.jpg");
@@ -35,10 +44,15 @@ fn main() {
     println!("Parallel sharpening time taken: {:?}", duration_par);
 
     // let start_normal = std::time::Instant::now();
-    // let normal_sharpened_img = sharpen(&sharpen_image);
+    // let normal_sharpened_image = sharpen(&sharpen_image);
     // let duration_normal = start_normal.elapsed();
     // println!("Normal sharpening time taken: {:?}", duration_normal);
 
     let rgb_sharpened_image = image::DynamicImage::ImageRgba8(par_sharpened_image).to_rgb8();
-    save_sharpen_image(&image::DynamicImage::ImageRgb8(rgb_sharpened_image), "output1.png");
+    save_sharpen_image(
+        &image::DynamicImage::ImageRgb8(rgb_sharpened_image),
+        "output.png",
+    );
+    // let rgb_sharpened_image = image::DynamicImage::ImageRgba8(normal_sharpened_image).to_rgb8();
+    // save_sharpen_image(&image::DynamicImage::ImageRgb8(rgb_sharpened_image), "output.png");
 }

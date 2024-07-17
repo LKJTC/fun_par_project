@@ -1,7 +1,7 @@
-use image::{DynamicImage, GenericImageView, ImageBuffer, Rgba, GenericImage};
+use image::io::Reader as ImageReader;
+use image::{DynamicImage, GenericImage, GenericImageView, ImageBuffer, Rgba};
 use imageproc::filter::gaussian_blur_f32;
 use rayon::prelude::*;
-use image::io::Reader as ImageReader;
 use std::time::Instant;
 
 /*
@@ -26,11 +26,16 @@ pub fn get_image(path: &str) -> DynamicImage {
 * Finally, each chunk is added to a vector called chunks and is returned.
 */
 #[allow(dead_code)]
-pub fn image_to_chunks(image: &DynamicImage, chunk_height: u32) -> Vec<ImageBuffer<Rgba<u8>, Vec<u8>>> {
+pub fn image_to_chunks(
+    image: &DynamicImage,
+    chunk_height: u32,
+) -> Vec<ImageBuffer<Rgba<u8>, Vec<u8>>> {
     let (width, height) = image.dimensions();
     let mut chunks = Vec::new();
     for y in (0..height).step_by(chunk_height as usize) {
-        let sub_img: ImageBuffer<Rgba<u8>, Vec<u8>> = image.view(0, y, width, chunk_height.min(height - y)).to_image();
+        let sub_img: ImageBuffer<Rgba<u8>, Vec<u8>> = image
+            .view(0, y, width, chunk_height.min(height - y))
+            .to_image();
         chunks.push(sub_img);
     }
     chunks
@@ -42,13 +47,19 @@ pub fn image_to_chunks(image: &DynamicImage, chunk_height: u32) -> Vec<ImageBuff
 * It uses parallel iteration to apply Gaussian Blur to each chunk using the blur radius.
 */
 #[allow(dead_code)]
-pub fn gaussian_blur_chunk(chunk: &ImageBuffer<Rgba<u8>, Vec<u8>>, sigma: f32) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
+pub fn gaussian_blur_chunk(
+    chunk: &ImageBuffer<Rgba<u8>, Vec<u8>>,
+    sigma: f32,
+) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
     gaussian_blur_f32(chunk, sigma)
 }
 
 // Parallel blurring version
 #[allow(dead_code)]
-pub fn par_blurring(chunks: Vec<ImageBuffer<Rgba<u8>, Vec<u8>>>, sigma: f32) -> Vec<ImageBuffer<Rgba<u8>, Vec<u8>>> {
+pub fn par_blurring(
+    chunks: Vec<ImageBuffer<Rgba<u8>, Vec<u8>>>,
+    sigma: f32,
+) -> Vec<ImageBuffer<Rgba<u8>, Vec<u8>>> {
     chunks
         .into_par_iter()
         .map(|chunk| gaussian_blur_chunk(&chunk, sigma))
@@ -57,7 +68,10 @@ pub fn par_blurring(chunks: Vec<ImageBuffer<Rgba<u8>, Vec<u8>>>, sigma: f32) -> 
 
 // Non-parallel blurring version
 #[allow(dead_code)]
-pub fn normal_blurring(chunks: Vec<ImageBuffer<Rgba<u8>, Vec<u8>>>, sigma: f32) -> Vec<ImageBuffer<Rgba<u8>, Vec<u8>>> {
+pub fn normal_blurring(
+    chunks: Vec<ImageBuffer<Rgba<u8>, Vec<u8>>>,
+    sigma: f32,
+) -> Vec<ImageBuffer<Rgba<u8>, Vec<u8>>> {
     chunks
         .into_iter()
         .map(|chunk| gaussian_blur_chunk(&chunk, sigma))
@@ -73,11 +87,17 @@ pub fn normal_blurring(chunks: Vec<ImageBuffer<Rgba<u8>, Vec<u8>>>, sigma: f32) 
 * After this process is over, the reconstructed iamge is returned.
 */
 #[allow(dead_code)]
-pub fn chunks_to_image(chunks: &[ImageBuffer<Rgba<u8>, Vec<u8>>], width: u32, height: u32) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
+pub fn chunks_to_image(
+    chunks: &[ImageBuffer<Rgba<u8>, Vec<u8>>],
+    width: u32,
+    height: u32,
+) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
     let mut image = ImageBuffer::new(width, height);
     let mut y_offset = 0;
     for chunk in chunks {
-        image.copy_from(chunk, 0, y_offset).expect("Failed to copy chunk");
+        image
+            .copy_from(chunk, 0, y_offset)
+            .expect("Failed to copy chunk");
         y_offset += chunk.height();
     }
     image
@@ -87,25 +107,3 @@ pub fn chunks_to_image(chunks: &[ImageBuffer<Rgba<u8>, Vec<u8>>], width: u32, he
 pub fn save_image(image: &DynamicImage, path: &str) {
     image.save(path).expect("save_image");
 }
-
-// fn main() {
-//     let image = get_image("4k_image.jpg");
-//     let (width, height) = image.dimensions();
-//     let chunk_height = (height + 3) / 4;
-//     let chunks = image_to_chunks(&image, chunk_height);
-
-//     // let start_par = Instant::now();
-//     // let par_blurred_chunks = par_blurring(chunks, 10.0);
-//     // let par_blurred_image = chunks_to_image(&par_blurred_chunks, width, height);
-//     // let duration_par = start_par.elapsed();
-//     // println!("Parallel blurring time taken: {:?}", duration_par);
-
-//     let start_normal = Instant::now();
-//     let normal_blurred_chunks = normal_blurring(chunks, 4.0);
-//     let normal_blurred_image = chunks_to_image(&normal_blurred_chunks, width, height);
-//     let duration_normal = start_normal.elapsed();
-//     println!("Normal blurring time taken: {:?}", duration_normal);
-
-//     // save_image(&DynamicImage::ImageRgba8(par_blurred_image), "blurred_image1.png");
-//     save_image(&DynamicImage::ImageRgba8(normal_blurred_image), "blurred_image.png");
-// }

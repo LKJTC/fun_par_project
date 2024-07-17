@@ -1,7 +1,7 @@
-use image::{GenericImageView, DynamicImage, ImageBuffer, Rgba};
+use image::io::Reader as ImageReader;
+use image::{DynamicImage, GenericImageView, ImageBuffer, Rgba};
 use rayon::prelude::*;
 use std::path::Path;
-use image::io::Reader as ImageReader;
 use std::time::Instant;
 
 #[allow(dead_code)]
@@ -26,13 +26,19 @@ pub fn sharpen(img: &DynamicImage) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
     let mut output_img = ImageBuffer::new(width, height);
 
     let offsets = [
-        (-1, -1), (0, -1), (1, -1),
-        (-1,  0), (0,  0), (1,  0),
-        (-1,  1), (0,  1), (1,  1),
+        (-1, -1),
+        (0, -1),
+        (1, -1),
+        (-1, 0),
+        (0, 0),
+        (1, 0),
+        (-1, 1),
+        (0, 1),
+        (1, 1),
     ];
 
-    for y in 1..height-1 {
-        for x in 1..width-1 {
+    for y in 1..height - 1 {
+        for x in 1..width - 1 {
             let mut r = 0i32;
             let mut g = 0i32;
             let mut b = 0i32;
@@ -70,9 +76,15 @@ pub fn par_sharpen(img: &DynamicImage) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
     let (width, height) = img.dimensions();
 
     let offsets = [
-        (-1, -1), (0, -1), (1, -1),
-        (-1,  0), (0,  0), (1,  0),
-        (-1,  1), (0,  1), (1,  1),
+        (-1, -1),
+        (0, -1),
+        (1, -1),
+        (-1, 0),
+        (0, 0),
+        (1, 0),
+        (-1, 1),
+        (0, 1),
+        (1, 1),
     ];
 
     let output_img: Vec<Vec<Rgba<u8>>> = (0..height)
@@ -83,7 +95,7 @@ pub fn par_sharpen(img: &DynamicImage) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
                     if x == 0 || y == 0 || x == width - 1 || y == height - 1 {
                         return img.get_pixel(x, y);
                     }
-                    
+
                     let mut r = 0i32;
                     let mut g = 0i32;
                     let mut b = 0i32;
@@ -120,21 +132,4 @@ pub fn par_sharpen(img: &DynamicImage) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
 #[allow(dead_code)]
 pub fn save_image(image: &DynamicImage, path: &str) {
     image.save(path).expect("Failed to save image");
-}
-
-fn main() {
-    let img = get_image("landscape.jpg");
-
-    let start_par = Instant::now();
-    let par_sharpened_img = par_sharpen(&img);
-    let duration_par = start_par.elapsed();
-    println!("Parallel time taken: {:?}", duration_par);
-
-    // let start_normal = Instant::now();
-    // let sharpended_img = sharpen(&img);
-    // let duration_normal = start_normal.elapsed();
-    // println!("Normal time taken: {:?}", duration_normal);
-
-    let rgb_image = DynamicImage::ImageRgba8(par_sharpened_img).to_rgb8();
-    save_image(&DynamicImage::ImageRgb8(rgb_image), "output1.png");
 }
