@@ -45,6 +45,7 @@ pub fn image_to_chunks(image: &DynamicImage, chunk_height: u32) -> Vec<ImageBuff
 pub fn gaussian_blur_chunk(chunk: &ImageBuffer<Rgba<u8>, Vec<u8>>, sigma: f32) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
     gaussian_blur_f32(chunk, sigma)
 }
+
 // Parallel blurring version
 #[allow(dead_code)]
 pub fn par_blurring(chunks: Vec<ImageBuffer<Rgba<u8>, Vec<u8>>>, sigma: f32) -> Vec<ImageBuffer<Rgba<u8>, Vec<u8>>> {
@@ -87,24 +88,24 @@ pub fn save_image(image: &DynamicImage, path: &str) {
     image.save(path).expect("save_image");
 }
 
-fn main() {
-    let image = get_image("gojo.png");
-    let (width, height) = image.dimensions();
-    let chunk_height = (height + 3) / 4;
-    let chunks = image_to_chunks(&image, chunk_height);
+// fn main() {
+//     let image = get_image("4k_image.jpg");
+//     let (width, height) = image.dimensions();
+//     let chunk_height = (height + 3) / 4;
+//     let chunks = image_to_chunks(&image, chunk_height);
 
-    let start_par = Instant::now();
-    let par_blurred_chunks = par_blurring(chunks, 4.0);
-    let par_blurred_image = chunks_to_image(&par_blurred_chunks, width, height);
-    let duration_par = start_par.elapsed();
-    println!("Parallel blurring time taken: {:?}", duration_par);
+//     // let start_par = Instant::now();
+//     // let par_blurred_chunks = par_blurring(chunks, 10.0);
+//     // let par_blurred_image = chunks_to_image(&par_blurred_chunks, width, height);
+//     // let duration_par = start_par.elapsed();
+//     // println!("Parallel blurring time taken: {:?}", duration_par);
 
-    // let start_normal = Instant::now();
-    // let normal_blurred_chunks = normal_blurring(chunks, 4.0);
-    // let normal_blurred_image = chunks_to_image(&normal_blurred_chunks, width, height);
-    // let duration_normal = start_normal.elapsed();
-    // println!("Normal blurring time taken: {:?}", duration_normal);
+//     let start_normal = Instant::now();
+//     let normal_blurred_chunks = normal_blurring(chunks, 4.0);
+//     let normal_blurred_image = chunks_to_image(&normal_blurred_chunks, width, height);
+//     let duration_normal = start_normal.elapsed();
+//     println!("Normal blurring time taken: {:?}", duration_normal);
 
-    save_image(&DynamicImage::ImageRgba8(par_blurred_image), "blurred_image.png");
-    // save_image(&DynamicImage::ImageRgba8(normal_blurred_image), "blurred_image.png");
-}
+//     // save_image(&DynamicImage::ImageRgba8(par_blurred_image), "blurred_image1.png");
+//     save_image(&DynamicImage::ImageRgba8(normal_blurred_image), "blurred_image.png");
+// }
