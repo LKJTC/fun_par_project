@@ -14,7 +14,7 @@
 - **Image Blurring**&**Image Sharpening**
 - For more details, see [Blur & Sharpen Tools README](image_filtering/README.md).
 - **Image Compression**
-- For more details, see [Compression Tool README](/image_compressor/README.md).
+- For more details, see [Compression Tool README](fun_par_project/blob/main/image_compressor/readme.md).
 - **Image Segmentation**
 - For more details, see [Segmentation Tool README](/image_segmentation/README.md).
 
