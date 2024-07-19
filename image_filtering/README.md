@@ -46,7 +46,7 @@ rayon = "1.5"
 
 ## How to run the functions
 
-It is very important that you are in the image_filtering directory to run the function. You can check the `main.rs` file to change the image that you want to blur or sharpen, you are also able to change the strength of the blur as well. It is recommended to use a lower blur strenth like 3.0 or 4.0 for images with less pixels. However, for a 4k image, it is recommended to use a blur strength of 8.0.
+It is very important that you are in the `image_filtering` directory to run the function. You can check the `main.rs` file to change the image that you want to blur or sharpen, you are also able to change the strength of the blur as well. It is recommended to use a lower blur strenth like 3.0 or 4.0 for images with less pixels. However, for a 4k image, it is recommended to use a blur strength of 8.0.
 
 ## To build : cargo build
 
