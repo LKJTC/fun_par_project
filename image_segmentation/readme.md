@@ -20,11 +20,17 @@ To run this project, you need Rust and Cargo installed on your machine. Addition
 Ensure you have these dependencies by adding them to your `Cargo.toml`:
 
 ```toml```
+
 [dependencies]
+
 rayon = "1.5.1"
+
 ndarray = "0.15.3"
+
 ndarray-rand = "0.14.0"
+
 image = "0.23.14"
+
 rand_distr = "0.4.2"
 
 
