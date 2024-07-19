@@ -1,4 +1,4 @@
-## Rust Image Processing Group projec
+## Rust Image Processing Group project
   - Keonhee Kim 6480994 Image filter (Blur & Sharpen)
   - Krit Jarupanitkul 6480604 Image Compression & Image segmentation
 
