@@ -12,9 +12,9 @@
 ## Available Tools
 
 - **Image Blurring**&**Image Sharpening**
-- For more details, see [Blur & Sharpen Tools README](image_filtering/README.md).
+- For more details, see [Blur & Sharpen Tools README](image_filtering).
 - **Image Compression**
-- For more details, see [Compression Tool README](fun_par_project/blob/main/image_compressor/readme.md).
+- For more details, see [Compression Tool README](image_compressor).
 - **Image Segmentation**
-- For more details, see [Segmentation Tool README](/image_segmentation/README.md).
+- For more details, see [Segmentation Tool README](image_segmentation).
 
