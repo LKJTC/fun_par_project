@@ -17,18 +17,16 @@ This image compression compresses images in a specified folder using Rust and th
 
 To run this program, you need to include the following dependencies in your `Cargo.toml`:
 
-```toml
+```toml```
 [dependencies]
 image = "0.23"
 rayon = "1.5"
 
----
 Compress_image
  - This function takes three parameters: 
  - source (path to the image to be compressed), 
  - destination (path where the compressed image will be saved), 
  - and quality (compression quality as a value between 0 and 100).
----
 Compress_folder 
  - Setting up parallel processing for the compression of multiple images.
 Project_structure
@@ -59,4 +57,4 @@ This example compresses all images in source_dir and stores the compressed JPEG 
 To build : cargo build --release
 
 To run : cargo run -- source_dir/ dest_dir/
----
+
