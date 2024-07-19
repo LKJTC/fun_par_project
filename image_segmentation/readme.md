@@ -19,7 +19,7 @@ To run this project, you need Rust and Cargo installed on your machine. Addition
 
 Ensure you have these dependencies by adding them to your `Cargo.toml`:
 
-```toml
+```toml```
 [dependencies]
 rayon = "1.5.1"
 ndarray = "0.15.3"
