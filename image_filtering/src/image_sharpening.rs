@@ -60,10 +60,11 @@ pub fn sharpen(img: &DynamicImage) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
 }
 
 /*
-This function performs image sharpening, but in parallel manner using rayon.
-Basically, the function begins by converting the height range into the parallel iterator.
-Then a nested map call iterates over each pixel in parallel, applying the sharpening filter.
-Finally, in a loop the calculated pixel values are written to the output_img_buffer.
+ * This function performs image sharpening, but in parallel manner using rayon.
+ * Basically, the function begins by converting the height range into the parallel iterator.
+ * Then a nested map call iterates over each pixel in parallel, applying the sharpening filter.
+ * Finally, in a loop the calculated pixel values are written to the output_img_buffer.
+ * The parallel technique used is Data Parallelism.
 */
 #[allow(dead_code)]
 pub fn par_sharpen(img: &DynamicImage) -> ImageBuffer<Rgba<u8>, Vec<u8>> {

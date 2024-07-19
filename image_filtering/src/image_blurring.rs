@@ -44,7 +44,6 @@ pub fn image_to_chunks(
 /*
 * This function takes the chunks vector from the previous function as input, and
 * returns a vector of blurred chunks.
-* It uses parallel iteration to apply Gaussian Blur to each chunk using the blur radius.
 */
 #[allow(dead_code)]
 pub fn gaussian_blur_chunk(
@@ -54,7 +53,7 @@ pub fn gaussian_blur_chunk(
     gaussian_blur_f32(chunk, sigma)
 }
 
-// Parallel blurring version
+// Parallel blurring version, the parallel technique used is Data Parallelism.
 #[allow(dead_code)]
 pub fn par_blurring(
     chunks: Vec<ImageBuffer<Rgba<u8>, Vec<u8>>>,
