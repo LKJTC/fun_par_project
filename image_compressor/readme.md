@@ -18,6 +18,7 @@ This image compression compresses images in a specified folder using Rust and th
 To run this program, you need to include the following dependencies in your `Cargo.toml`:
 
 ```toml```
+
 [dependencies]
 image = "0.23"
 rayon = "1.5"
