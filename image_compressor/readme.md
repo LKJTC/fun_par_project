@@ -20,7 +20,9 @@ To run this program, you need to include the following dependencies in your `Car
 ```toml```
 
 [dependencies]
+
 image = "0.23"
+
 rayon = "1.5"
 
 Compress_image
@@ -30,6 +32,7 @@ Compress_image
  - and quality (compression quality as a value between 0 and 100).
 Compress_folder 
  - Setting up parallel processing for the compression of multiple images.
+
 Project_structure
 ├── dest_dir 
 │   ├── picture1.jpg -> this will come after compress file from soruce_dir
