@@ -56,9 +56,11 @@ Compress_folder
 
 ### Function Parameters
 
-source: The path to the directory containing the original images.
-dest: The path to the directory where the compressed images will be stored.
-quality: An integer value (0-100) specifying the compression quality for the JPEG output.
+**source** : The path to the directory containing the original images.
+
+**dest**: The path to the directory where the compressed images will be stored.
+
+**quality**: An integer value (0-100) specifying the compression quality for the JPEG output.
 
 let source = PathBuf::from("source_dir");
 
@@ -69,7 +71,7 @@ let quality = 80;
 compress_folder(&source, &destination, quality);
 This example compresses all images in source_dir and stores the compressed JPEG files in dest_dir with a quality setting of 80.
 
-To build : cargo build --release
+**To build** : cargo build --release
 
-To run : cargo run -- source_dir/ dest_dir/
+**To run**: cargo run -- source_dir/ dest_dir/
 
