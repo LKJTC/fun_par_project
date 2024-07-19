@@ -23,6 +23,11 @@ To run this program, you need to include the following dependencies in your `Car
 image = "0.25.1"
 imageproc = "0.25.0"
 rayon = "1.5"
+```
+## Functions for blurring
+ - The `get_image` function takes in the path of the image, and returns a DynamicImage.
+ - The `image_to_chunks` function divides the input image into smaller chunks.
+ - 
 
 ## compress_image
  - This function takes three parameters: 
