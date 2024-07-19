@@ -28,7 +28,7 @@ Compress_image
  - source (path to the image to be compressed), 
  - destination (path where the compressed image will be saved), 
  - and quality (compression quality as a value between 0 and 100).
-
+---
 Compress_folder 
  - Setting up parallel processing for the compression of multiple images.
 Project_structure
